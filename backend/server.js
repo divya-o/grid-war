@@ -3,6 +3,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 
+import { registerSocketHandlers } from './sockets/handlers.js';
+
 const app = express();
 const httpServer = createServer(app);
 
@@ -29,10 +31,16 @@ app.get('/health', (req, res) => {
 // Socket.IO connection
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
+  registerSocketHandlers(io, socket);
+
+  socket.on('disconnect', () => {
+    console.log(`[-] User disconnected: ${socket.id}`);
+  });
   
 });
 
 //start 
 httpServer.listen(PORT, () => {
   console.log(` Server running on port ${PORT}`);
+  console.log(`Socket.IO ready`);
 });

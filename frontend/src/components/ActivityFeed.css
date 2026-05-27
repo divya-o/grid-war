@@ -112,3 +112,89 @@
 .link:hover {
   color: #00ffff;
 }
+@media (max-width: 768px) {
+  .feedContainer {
+    width: 100%;
+    max-height: auto;
+  }
+ 
+  .title {
+    font-size: 12px;
+  }
+ 
+  .entry {
+    padding: 6px;
+    font-size: 9px;
+  }
+ 
+  .colorDot {
+    width: 10px;
+    height: 10px;
+  }
+ 
+  .content {
+    font-size: 9px;
+    gap: 3px;
+  }
+ 
+  .name {
+    font-size: 9px;
+  }
+ 
+  .action {
+    font-size: 8px;
+  }
+ 
+  .time {
+    font-size: 8px;
+  }
+ 
+  .link {
+    font-size: 9px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .feedContainer {
+    width: 100%;
+    max-height: auto;
+    padding: 12px;
+  }
+ 
+  .title {
+    font-size: 11px;
+  }
+ 
+  .entry {
+    padding: 4px;
+    font-size: 8px;
+    gap: 4px;
+  }
+ 
+  .colorDot {
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+  }
+ 
+  .content {
+    font-size: 8px;
+    gap: 2px;
+  }
+ 
+  .name {
+    font-size: 8px;
+  }
+ 
+  .action {
+    font-size: 7px;
+  }
+ 
+  .time {
+    font-size: 7px;
+  }
+ 
+  .link {
+    font-size: 8px;
+  }
+}

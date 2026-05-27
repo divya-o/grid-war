@@ -126,3 +126,82 @@
 .link:hover {
   color: #00ffff;
 }
+@media (max-width: 768px) {
+  .leaderboardContainer {
+    width: 100%;
+    max-height: auto;
+    max-width: 100%;
+  }
+ 
+  .title {
+    font-size: 12px;
+  }
+ 
+  .entry {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+ 
+  .rank {
+    font-size: 11px;
+    min-width: 18px;
+  }
+ 
+  .colorDot {
+    width: 14px;
+    height: 14px;
+  }
+ 
+  .name {
+    font-size: 11px;
+  }
+ 
+  .count {
+    font-size: 11px;
+    min-width: 28px;
+  }
+ 
+  .link {
+    font-size: 10px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .leaderboardContainer {
+    max-height: auto;
+    padding: 12px;
+  }
+ 
+  .title {
+    font-size: 11px;
+  }
+ 
+  .entry {
+    padding: 6px 8px;
+    font-size: 9px;
+    gap: 6px;
+  }
+ 
+  .rank {
+    font-size: 10px;
+    min-width: 16px;
+  }
+ 
+  .colorDot {
+    width: 12px;
+    height: 12px;
+  }
+ 
+  .name {
+    font-size: 10px;
+  }
+ 
+  .count {
+    font-size: 10px;
+    min-width: 24px;
+  }
+ 
+  .link {
+    font-size: 9px;
+  }
+}

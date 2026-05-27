@@ -5,16 +5,20 @@ export function registerSocketHandlers(io, socket) {
   //join 
   socket.on('join', (callback) => {
     const { name, color } = generateRandomUser();
+    const userId = socket.id;
 
-    gameState.addUser(socket.id, name, color);
+    gameState.addUser(userId, name, color);
+    gameState.addActivity('join', userId, name, color, 'joined the game');
 
     callback({
-      userId: socket.id,
+      userId,
 
       name,
       color,
       tiles: gameState.getAllTiles(),
+      users: gameState.getAllUsers(),
       leaderboard: gameState.getLeaderboard(),
+      activities: gameState.getActivityLog(),
     });
 
     io.emit('leaderboard_updated', gameState.getLeaderboard());
@@ -22,19 +26,39 @@ export function registerSocketHandlers(io, socket) {
 
   //claim tile
   socket.on('claim_tile', (tileId, callback) => {
-    const result = gameState.claimTile(tileId, socket.id);
+    const userId = socket.id;
+    const user = gameState.getUser(userId);
+    if (!user) {
+      callback({ success: false, reason: 'User not found' });
+      return;
+    }
+
+
+    const result = gameState.claimTile(tileId, userId);
 
     if (result.success) {
+      const tile = result.tile;
       io.emit('tile_updated', result.tile);
       io.emit('leaderboard_updated', gameState.getLeaderboard());
+      callback({ success: true, tile });
+    } else {
+      callback({ success: false, reason: result.reason });
     }
-    callback(result);
   });
 
   //disconnect
   socket.on('disconnect', () => {
-    gameState.removeUser(socket.id);
+    const user = gameState.getUser(socket.id);
+    if (user) {
+      gameState.removeUser(socket.id);
+      gameState.addActivity('leave', socket.id, user.name, user.color, 'left the game');
 
-    io.emit('leaderboard_updated', gameState.getLeaderboard());
+    // Notify all users
+      io.emit('user_left', {
+        userId: socket.id,
+        onlineCount: gameState.getAllUsers().length,
+        leaderboard: gameState.getLeaderboard(),
+      });
+    }
   });
 }

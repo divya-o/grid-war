@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { socket } from '../socket/socket';
-import styles from './Grid.module.css';
+import Tile from './Tile';
+import './Grid.css';
 
-function Grid() {
+function Grid({ initialTiles = [] }) {
   const [tiles, setTiles] = useState({});
+  const [error, setError] = useState('');
 
+  // initialiaze tiles from socket
+  useEffect(() => {
+    if (initialTiles && initialTiles.length > 0) {
+      const tilesMap = {};
+      initialTiles.forEach((tile) => {
+        tilesMap[tile.id] = tile;
+      });
+      setTiles(tilesMap);
+    }
+  }, [initialTiles]);
+  //listen
   useEffect(() => {
     const handleTileUpdated = (tile) => {
       setTiles((prev) => ({
@@ -13,7 +26,6 @@ function Grid() {
       }));
     };
 
-
     socket.on('tile_updated', handleTileUpdated);
 
     return () => {
@@ -21,31 +33,32 @@ function Grid() {
     };
   }, []);
 
+  const handleClaimError = useCallback((message) => {
+    setError(message);
+    setTimeout(() => setError(''), 3000);
+  }, []);
 
-  const gridSize = 30;
   const tileIds = Object.keys(tiles);
+  const gridSize = 30;
 
   return (
-    <div
-      className={styles.grid}
-      style={{
-        gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-      }}
-    >
-      {tileIds.map((tileId) => {
-        const tile = tiles[tileId];
+    <div className="gridContainer">
+      {error && <div className="errorMessage">{error}</div>}
 
-        return (
-          <div
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+        }}
+      >
+        {tileIds.map((tileId) => (
+          <Tile
             key={tileId}
-            className={styles.tile}
-            style={{
-              backgroundColor: tile.color || '#1a1a1a',
-            }}
+            tile={tiles[tileId]}
+            onClaimError={handleClaimError}
           />
-        );
-      })}
-      
+        ))}
+      </div>
     </div>
   );
 }

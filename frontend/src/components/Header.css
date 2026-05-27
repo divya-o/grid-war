@@ -1,0 +1,116 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: rgba(15, 20, 45, 0.95);
+  border-bottom: 1px solid rgba(100, 150, 200, 0.2);
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 28px;
+}
+
+.logo h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 2px;
+  color: #00d9ff;
+}
+
+.logo p {
+  font-size: 11px;
+  color: #888;
+  margin: 2px 0 0 0;
+  letter-spacing: 1px;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  justify-content: center;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.statIcon {
+  color: #00d9ff;
+}
+
+.label {
+  color: #999;
+}
+
+.value {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  background-color: rgba(50, 40, 100, 0.3);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(150, 100, 200, 0.3);
+}
+
+.userColor {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.userId {
+  font-size: 10px;
+  color: #888;
+}
+
+.connectionStatus {
+  font-size: 8px;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.connected {
+  color: #00ff00;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.disconnected {
+  color: #ff6666;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

@@ -1,5 +1,6 @@
 const GRID_WIDTH = 30;
 const GRID_HEIGHT = 30;
+const COOLDOWN_MS = 3000;
 
 class GameState {
 
@@ -25,6 +26,7 @@ class GameState {
           ownerName: null,
           ownerColor: null,
           claimedAt: null,
+          lockedUntil: null,
         });
       }
     }
@@ -37,29 +39,9 @@ class GameState {
       color: userColor,
       joinedAt: Date.now(),
     });
-
-    this.addActivity(
-      'join',
-      userId,
-      userName,
-      userColor,
-      'joined the game'
-    );
   }
 
   removeUser(userId) {
-    const user= this.users.get(userId);
-
-    if (user) {
-      this.addActivity(
-        'leave',
-        user.id,
-        user.name,
-        user.color,
-        'left the game'
-      );
-    }
-
     this.users.delete(userId);
   }
 
@@ -76,6 +58,9 @@ class GameState {
         reason: 'Tile not found',
       };
     }
+     if (tile.lockedUntil && Date.now() < tile.lockedUntil) {
+      return { success: false, reason: 'Tile is locked' };
+    }
 
     const user = this.users.get(userId);
 
@@ -91,6 +76,7 @@ class GameState {
     tile.ownerName = user.name;
     tile.ownerColor = user.color;
     tile.claimedAt = Date.now();
+    tile.lockedUntil = Date.now() + COOLDOWN_MS;
 
     //track activity
     this.addActivity(
@@ -140,24 +126,23 @@ class GameState {
   }
 
   getLeaderboard() {
-    const scores = {};
+    const leaderboard = {};
 
     //ccount owned tiles
     this.tiles.forEach((tile) => {
       if (tile.ownerId) {
-        scores[tile.ownerId] = (scores[tile.ownerId] || 0) + 1;
-      }
+        leaderboard[tile.ownerId] = (leaderboard[tile.ownerId] || 0) + 1;      }
     });
 
-    return Object.entries(scores)
-      .map(([userId, tileCount]) => {
+    return Object.entries(leaderboard)
+      .map(([userId, count]) => {
         const user= this.users.get(userId);
 
         return {
           userId,
           name:  user?.name || 'Unknown',
           color:  user?.color || '#ffffff',
-          tileCount,
+          tileCount: count,
         };
       })
 

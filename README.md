@@ -16,31 +16,27 @@ A fast, interactive, real-time multiplayer web application where users compete t
 
 ## Quick Start
 
-### Prerequisites
+### Prerequisites required:
 - Node.js 16+ installed
 - npm or yarn
 
 ### Server Setup
 
 ```bash
-cd server
+cd backend
 npm install
 npm start
 ```
 
-Server runs on `http://localhost:5000`
-
 ### Client Setup
 
 ```bash
-cd client
+cd frontend
 npm install
 npm run dev
 ```
 
-Client opens automatically at `http://localhost:3000`
-
-## Architecture
+## Architecture Overview
 
 ### Backend State Management
 
@@ -98,10 +94,6 @@ Client cannot be trusted for ownership, server validates all changes before broa
 ### Why Cooldown Lock?
 Prevents tile-spam behavior and demonstrates backend validation logic. Optional feature but adds polish
 
-## Configuration
-
-Edit `.env` in client folder to change server URL.
-
 ## How It Works
 
 ### Claiming a Tile
@@ -149,14 +141,14 @@ If multiple users click the same tile simultaneously:
 - Single-process server (no clustering)
 - No persistence layer
 
-**Future Improvements**
+**Future Additions**
 - Redis pub/sub for horizontal scaling
 - PostgreSQL for persistent tiles/users
 - Socket.IO adapters for multi-server setup
 - Rate limiting per user
 - Tile history/audit log
 
-Intentionally not implemented for MVP scope.
+Intentionally not implemented for current scope.
 
 ##  Testing
 
